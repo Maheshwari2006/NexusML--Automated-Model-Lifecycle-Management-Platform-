@@ -2,6 +2,7 @@ from backend.src.components.data_ingestion import DataIngestion
 from backend.src.components.data_validation import DataValidation
 from backend.src.components.data_transformation import DataTransformation
 from backend.src.components.model_trainer import ModelTrainer
+from backend.src.components.model_evaluation import ModelEvaluation
 
 
 if __name__ == "__main__":
@@ -20,5 +21,8 @@ if __name__ == "__main__":
 
         trainer = ModelTrainer()
         trainer.train()
+
+        evaluator = ModelEvaluation()
+        evaluator.evaluate()
 
     print("Pipeline Completed")
