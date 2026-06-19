@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Attrition Prediction</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Employee Attrition Prediction System</h1>
+
+<form action="/predict" method="post">
+
+<label>Age</label>
+<input type="number" name="Age" required>
+
+<label>Monthly Income</label>
+<input type="number" name="MonthlyIncome" required>
+
+<label>Years At Company</label>
+<input type="number" name="YearsAtCompany" required>
+
+<button type="submit">
+Predict
+</button>
+
+</form>
+
+</div>
+
+</body>
+</html>
