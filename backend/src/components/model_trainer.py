@@ -52,21 +52,29 @@ class ModelTrainer:
                 f"Accuracy : {accuracy:.2f}"
             )
 
+            # Log Parameters
             mlflow.log_param(
                 "n_estimators",
                 100
             )
 
+            # Log Metrics
             mlflow.log_metric(
                 "accuracy",
                 accuracy
             )
 
-            mlflow.sklearn.log_model(
-                model,
-                "random_forest_model"
+            # Register Model in MLflow
+            model_info = mlflow.sklearn.log_model(
+                sk_model=model,
+                name="EmployeeAttritionModel"
             )
 
+            print(
+                "Model Registered Successfully"
+            )
+
+            # Save Model Locally
             os.makedirs(
                 "backend/artifacts",
                 exist_ok=True
