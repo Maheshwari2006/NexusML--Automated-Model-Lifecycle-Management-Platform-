@@ -1,6 +1,8 @@
-import pandas as pd
 import os
 import joblib
+import pandas as pd
+import mlflow
+import mlflow.sklearn
 
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
@@ -15,10 +17,7 @@ class ModelTrainer:
             "backend/artifacts/processed_data.csv"
         )
 
-        X = df.drop(
-            columns=["Attrition"]
-        )
-
+        X = df.drop(columns=["Attrition"])
         y = df["Attrition"]
 
         X_train, X_test, y_train, y_test = train_test_split(
@@ -28,39 +27,56 @@ class ModelTrainer:
             random_state=42
         )
 
-        model = RandomForestClassifier(
-            n_estimators=100,
-            random_state=42
-        )
+        with mlflow.start_run():
 
-        model.fit(
-            X_train,
-            y_train
-        )
+            model = RandomForestClassifier(
+                n_estimators=100,
+                random_state=42
+            )
 
-        predictions = model.predict(
-            X_test
-        )
+            model.fit(
+                X_train,
+                y_train
+            )
 
-        accuracy = accuracy_score(
-            y_test,
-            predictions
-        )
+            predictions = model.predict(
+                X_test
+            )
 
-        print(
-            f"Accuracy : {accuracy:.2f}"
-        )
+            accuracy = accuracy_score(
+                y_test,
+                predictions
+            )
 
-        os.makedirs(
-            "backend/artifacts",
-            exist_ok=True
-        )
+            print(
+                f"Accuracy : {accuracy:.2f}"
+            )
 
-        joblib.dump(
-            model,
-            "backend/artifacts/model.pkl"
-        )
+            mlflow.log_param(
+                "n_estimators",
+                100
+            )
 
-        print(
-            "Model Saved Successfully"
-        )
+            mlflow.log_metric(
+                "accuracy",
+                accuracy
+            )
+
+            mlflow.sklearn.log_model(
+                model,
+                "random_forest_model"
+            )
+
+            os.makedirs(
+                "backend/artifacts",
+                exist_ok=True
+            )
+
+            joblib.dump(
+                model,
+                "backend/artifacts/model.pkl"
+            )
+
+            print(
+                "Model Saved Successfully"
+            )
