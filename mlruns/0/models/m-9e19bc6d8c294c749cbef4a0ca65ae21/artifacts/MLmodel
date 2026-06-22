@@ -1,0 +1,24 @@
+artifact_path: "file:///c:/Users/ADMIN/OneDrive/Desktop/NexusML \u2013 Automated Model\
+  \ Lifecycle Management Platform/mlruns/0/models/m-9e19bc6d8c294c749cbef4a0ca65ae21/artifacts"
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.skops
+    predict_fn: predict
+    python_version: 3.10.11
+  sklearn:
+    code: null
+    pickled_model: model.skops
+    serialization_format: skops
+    sklearn_version: 1.5.2
+    skops_trusted_types: null
+mlflow_version: 3.14.0
+model_id: m-9e19bc6d8c294c749cbef4a0ca65ae21
+model_size_bytes: 5413905
+model_uuid: m-9e19bc6d8c294c749cbef4a0ca65ae21
+prompts: null
+run_id: e095efe1becb483ba299d0dcda748e66
+utc_time_created: '2026-06-22 05:53:01.223797'
