@@ -1,0 +1,19 @@
+NexusML CI Pipeline - 
+
+Workflow :
+
+Developer
+    │
+git push
+    │
+    ▼
+GitHub
+    │
+    ▼
+GitHub Actions
+    │
+    ├── Install Python
+    ├── Install Packages
+    ├── Run Training Pipeline
+    ├── Build Docker Image
+    └── Success ✔
