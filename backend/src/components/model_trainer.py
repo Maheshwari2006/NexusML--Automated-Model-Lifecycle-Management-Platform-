@@ -34,23 +34,16 @@ class ModelTrainer:
                 random_state=42
             )
 
-            model.fit(
-                X_train,
-                y_train
-            )
+            model.fit(X_train, y_train)
 
-            predictions = model.predict(
-                X_test
-            )
+            predictions = model.predict(X_test)
 
             accuracy = accuracy_score(
                 y_test,
                 predictions
             )
 
-            print(
-                f"Accuracy : {accuracy:.2f}"
-            )
+            print(f"Accuracy : {accuracy:.2f}")
 
             # Log Parameters
             mlflow.log_param(
@@ -64,15 +57,19 @@ class ModelTrainer:
                 accuracy
             )
 
-            # Register Model in MLflow
-            model_info = mlflow.sklearn.log_model(
-                sk_model=model,
-                name="EmployeeAttritionModel"
-            )
+            # Skip MLflow Model Registry in GitHub Actions
+            if os.getenv("GITHUB_ACTIONS") != "true":
 
-            print(
-                "Model Registered Successfully"
-            )
+                mlflow.sklearn.log_model(
+                    sk_model=model,
+                    name="EmployeeAttritionModel"
+                )
+
+                print("Model Registered Successfully")
+
+            else:
+
+                print("GitHub Actions detected - Skipping MLflow Model Registry")
 
             # Save Model Locally
             os.makedirs(
@@ -85,6 +82,4 @@ class ModelTrainer:
                 "backend/artifacts/model.pkl"
             )
 
-            print(
-                "Model Saved Successfully"
-            )
+            print("Model Saved Successfully")
