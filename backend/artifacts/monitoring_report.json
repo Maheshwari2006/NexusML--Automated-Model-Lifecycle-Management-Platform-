@@ -1,4 +1,5 @@
 {
-    "old_accuracy": 0.83,
-    "new_accuracy": 0.87
+    "Current Accuracy": 0.8299,
+    "Threshold": 0.8,
+    "Status": "Model Healthy"
 }

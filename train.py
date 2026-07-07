@@ -6,3 +6,9 @@ if __name__ == "__main__":
     pipeline = TrainingPipeline()
 
     pipeline.start_training_pipeline()
+
+from backend.src.pipeline.monitoring_pipeline import MonitoringPipeline
+
+monitor = MonitoringPipeline()
+
+monitor.run()
