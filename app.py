@@ -6,26 +6,21 @@ from backend.src.pipeline.prediction_pipeline import PredictionPipeline
 
 app = FastAPI(
     title="NexusML - Automated Model Lifecycle Management Platform",
-    version="1.0.0",
-    description="Employee Attrition Prediction using Machine Learning"
+    description="Enterprise MLOps platform for Employee Attrition Prediction",
+    version="1.0.0"
 )
 
 templates = Jinja2Templates(directory="templates")
 
 
-@app.get("/")
-def home():
-    return {
-        "message": "Welcome to NexusML",
-        "status": "Running Successfully"
-    }
-
-
-@app.get("/predict", response_class=HTMLResponse)
-async def predict_form(request: Request):
+@app.get("/", response_class=HTMLResponse)
+async def home(request: Request):
     return templates.TemplateResponse(
         "index.html",
-        {"request": request}
+        {
+            "request": request,
+            "prediction": None
+        }
     )
 
 
@@ -36,7 +31,9 @@ async def predict(
     MonthlyIncome: float = Form(...),
     YearsAtCompany: int = Form(...)
 ):
-    prediction = PredictionPipeline().predict(
+    pipeline = PredictionPipeline()
+
+    prediction = pipeline.predict(
         Age,
         MonthlyIncome,
         YearsAtCompany
@@ -52,8 +49,10 @@ async def predict(
 
 
 @app.get("/health")
-def health():
+async def health():
     return {
         "status": "healthy",
+        "service": "NexusML",
+        "version": "1.0.0",
         "model": "loaded"
     }
