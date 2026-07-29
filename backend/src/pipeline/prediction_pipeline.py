@@ -1,12 +1,4 @@
-class PredictionPipeline:
-
-    def predict(self, age, income, years):
-
-        if income < 30000:
-            return "Employee Likely To Leave"
-
-        return "Employee Likely To Stay"
-    
+from pathlib import Path
 import joblib
 import pandas as pd
 
@@ -14,9 +6,14 @@ import pandas as pd
 class PredictionPipeline:
 
     def __init__(self):
-        self.model = joblib.load(
-            "backend/artifacts/model.pkl"
+
+        model_path = (
+            Path(__file__).resolve().parents[2]
+            / "artifacts"
+            / "model.pkl"
         )
+
+        self.model = joblib.load(model_path)
 
     def predict(self, age, income, years):
 

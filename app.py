@@ -1,5 +1,8 @@
+from pathlib import Path
+
 from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from backend.src.pipeline.prediction_pipeline import PredictionPipeline
@@ -10,7 +13,17 @@ app = FastAPI(
     version="1.0.0"
 )
 
-templates = Jinja2Templates(directory="templates")
+BASE_DIR = Path(__file__).resolve().parent
+
+templates = Jinja2Templates(
+    directory=str(BASE_DIR / "frontend" / "templates")
+)
+
+app.mount(
+    "/static",
+    StaticFiles(directory=str(BASE_DIR / "frontend" / "static")),
+    name="static"
+)
 
 
 @app.get("/", response_class=HTMLResponse)
