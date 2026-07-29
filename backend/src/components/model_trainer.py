@@ -13,18 +13,26 @@ class ModelTrainer:
 
     def train(self):
 
-        df = pd.read_csv(
-            "backend/artifacts/processed_data.csv"
-        )
+        # Load processed dataset
+        df = pd.read_csv("backend/artifacts/processed_data.csv")
 
-        X = df.drop(columns=["Attrition"])
+        # Use only the features collected by the web form
+        X = df[[
+            "Age",
+            "MonthlyIncome",
+            "YearsAtCompany"
+        ]]
+
+        # Target column
         y = df["Attrition"]
 
+        # Train-test split
         X_train, X_test, y_train, y_test = train_test_split(
             X,
             y,
             test_size=0.2,
-            random_state=42
+            random_state=42,
+            stratify=y
         )
 
         with mlflow.start_run():
@@ -43,21 +51,15 @@ class ModelTrainer:
                 predictions
             )
 
-            print(f"Accuracy : {accuracy:.2f}")
+            print(f"Accuracy : {accuracy:.4f}")
 
-            # Log Parameters
-            mlflow.log_param(
-                "n_estimators",
-                100
-            )
+            # Log parameters
+            mlflow.log_param("n_estimators", 100)
 
-            # Log Metrics
-            mlflow.log_metric(
-                "accuracy",
-                accuracy
-            )
+            # Log metrics
+            mlflow.log_metric("accuracy", accuracy)
 
-            # Skip MLflow Model Registry in GitHub Actions
+            # Log model (skip registry in GitHub Actions)
             if os.getenv("GITHUB_ACTIONS") != "true":
 
                 mlflow.sklearn.log_model(
@@ -71,11 +73,8 @@ class ModelTrainer:
 
                 print("GitHub Actions detected - Skipping MLflow Model Registry")
 
-            # Save Model Locally
-            os.makedirs(
-                "backend/artifacts",
-                exist_ok=True
-            )
+            # Save trained model
+            os.makedirs("backend/artifacts", exist_ok=True)
 
             joblib.dump(
                 model,
