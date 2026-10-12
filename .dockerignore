@@ -1,18 +1,13 @@
+
 __pycache__/
 *.pyc
 
 .git/
-
 .github/
-
 .vscode/
-
 .idea/
 
 mlruns/
-
 mlflow.db
-
-backend/artifacts/
 
 .env
