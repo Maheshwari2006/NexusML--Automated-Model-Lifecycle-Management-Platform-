@@ -1,6 +1,6 @@
 
 __pycache__/
-*.pyc
+*.py[cod]
 
 .git/
 .github/
@@ -11,3 +11,7 @@ mlruns/
 mlflow.db
 
 .env
+.env.*
+
+.venv/
+venv/
