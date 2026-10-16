@@ -17,6 +17,10 @@ from backend.src.monitoring.monitoring_service import (
     save_monitoring_report,
 )
 
+from backend.src.retraining.retraining_service import (
+    retrain_and_evaluate,
+)
+
 BASE_DIR = Path(__file__).resolve().parent
 
 app = FastAPI(
@@ -96,3 +100,7 @@ async def monitoring_drift():
 @app.post("/monitoring/report")
 async def generate_monitoring_report():
     return save_monitoring_report()
+
+@app.post("/retraining/run")
+async def run_retraining():
+    return retrain_and_evaluate()
