@@ -1,5 +1,38 @@
 {
-    "Current Accuracy": 0.9694,
-    "Threshold": 0.8,
-    "Status": "Model Healthy"
+  "generated_at": "2026-10-16T09:12:10.946153+00:00",
+  "summary": {
+    "total_predictions": 1,
+    "prediction_counts": {
+      "Employee Likely To Stay": 1
+    },
+    "latest_prediction": {
+      "timestamp": "2026-10-16T09:03:32.133822+00:00",
+      "Age": 25,
+      "MonthlyIncome": 50000.0,
+      "YearsAtCompany": 5,
+      "prediction": "Employee Likely To Stay",
+      "model_version": null
+    }
+  },
+  "drift": {
+    "status": "completed",
+    "method": "mean comparison; preliminary drift indicator",
+    "features": {
+      "Age": {
+        "reference_mean": 36.923809523809524,
+        "current_mean": 25.0,
+        "mean_difference": -11.923809523809524
+      },
+      "MonthlyIncome": {
+        "reference_mean": 6502.931292517007,
+        "current_mean": 50000.0,
+        "mean_difference": 43497.06870748299
+      },
+      "YearsAtCompany": {
+        "reference_mean": 7.0081632653061225,
+        "current_mean": 5.0,
+        "mean_difference": -2.0081632653061225
+      }
+    }
+  }
 }

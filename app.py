@@ -10,12 +10,21 @@ from backend.src.pipeline.prediction_pipeline import PredictionPipeline
 from backend.src.pipeline.model_registry_api import (
     router as model_registry_router,
 )
+from backend.src.monitoring.monitoring_service import (
+    log_prediction,
+    get_monitoring_summary,
+    detect_data_drift,
+    save_monitoring_report,
+)
 
 BASE_DIR = Path(__file__).resolve().parent
 
 app = FastAPI(
     title="NexusML - Automated Model Lifecycle Management Platform",
-    description="Enterprise MLOps platform for Employee Attrition Prediction",
+    description=(
+        "Enterprise MLOps platform for "
+        "Employee Attrition Prediction"
+    ),
     version="1.0.0",
 )
 
@@ -54,6 +63,13 @@ async def predict(
         YearsAtCompany,
     )
 
+    log_prediction(
+        age=Age,
+        income=MonthlyIncome,
+        years=YearsAtCompany,
+        prediction=prediction,
+    )
+
     return templates.TemplateResponse(
         request=request,
         name="index.html",
@@ -68,3 +84,15 @@ async def health():
         "version": "1.0.0",
         "model": "loaded",
     }
+
+@app.get("/monitoring/summary")
+async def monitoring_summary():
+    return get_monitoring_summary()
+
+@app.get("/monitoring/drift")
+async def monitoring_drift():
+    return detect_data_drift()
+
+@app.post("/monitoring/report")
+async def generate_monitoring_report():
+    return save_monitoring_report()
